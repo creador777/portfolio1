@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+
+<html class="dark scroll-smooth" lang="es-PR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VDesign - Tu sitio, tu mundo, en línea</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Geist:wght@100..900&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet"/>
+<style>
+        .glow-neon { filter: drop-shadow(0 0 15px rgba(57, 255, 139, 0.7)); }
+        .glow-purple { filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.6)); }
+        
+        .node-active { box-shadow: 0 0 30px 8px rgba(57, 255, 139, 0.8), inset 0 0 15px rgba(57, 255, 139, 0.8); background-color: #39ff8b; transform: scale(1.4); }
+        .node-active-purple { box-shadow: 0 0 30px 8px rgba(168, 85, 247, 0.6); background-color: #A855F7; transform: scale(1.3); }
+        .node-inactive { background-color: #35343a; transition: all 0.5s ease; border-color: #39ff8b !important; }
+        
+        .tech-bg {
+            background-color: #0E0E13;
+        }
+        
+        .glass-panel {
+            background: rgba(19, 19, 24, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .premium-glass {
+            background: rgba(14, 14, 19, 0.6);
+            backdrop-filter: blur(40px) saturate(180%);
+            border: 1px solid rgba(57, 255, 139, 0.2);
+            box-shadow: 0 16px 50px 0 rgba(0, 0, 0, 0.6), inset 0 0 30px rgba(57, 255, 139, 0.08);
+        }
+
+        .text-neon-purple { color: #A855F7; text-shadow: 0 0 15px rgba(168, 85, 247, 0.8); }
+        .text-neon-green { color: #39ff8b; text-shadow: 0 0 15px rgba(57, 255, 139, 0.8); }
+
+        /* New immersive elements */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.5;
+        }
+        
+        .build-engine-container {
+            perspective: 2500px;
+        }
+        
+        .build-engine {
+            transform-style: preserve-3d;
+            transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        
+        .engine-hover:hover .build-engine {
+            transform: rotateY(-10deg) rotateX(6deg) translateZ(60px) !important;
+        }
+
+        .code-block {
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0.3;
+            transform: translateX(-20px) scale(0.95);
+        }
+
+        .code-block.is-active {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+            text-shadow: 0 0 15px rgba(57, 255, 139, 0.9);
+            color: #39ff8b !important;
+        }
+
+        .hologram-preview {
+            background: rgba(14, 14, 19, 0.8);
+            border: 1px solid rgba(57, 255, 139, 0.4);
+            box-shadow: inset 0 0 50px rgba(57, 255, 139, 0.2), 0 0 40px rgba(168, 85, 247, 0.2);
+            transform-style: preserve-3d;
+        }
+
+        .hologram-element {
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+            transform: scale(0.8) translateZ(-40px) translateY(40px);
+            border: 1px dashed rgba(57, 255, 139, 0.5);
+            box-shadow: inset 0 0 25px rgba(57, 255, 139, 0.15);
+            background: rgba(57, 255, 139, 0.05);
+            backdrop-filter: blur(8px);
+        }
+
+        .hologram-element.is-active {
+            opacity: 1;
+            transform: scale(1) translateZ(0) translateY(0);
+            border-style: solid;
+            background: rgba(57, 255, 139, 0.2);
+            box-shadow: 0 0 20px rgba(57, 255, 139, 0.4), inset 0 0 20px rgba(57, 255, 139, 0.3);
+        }
+        
+        .holo-purple.is-active {
+            border-color: rgba(168, 85, 247, 0.8);
+            background: rgba(168, 85, 247, 0.2);
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.4), inset 0 0 20px rgba(168, 85, 247, 0.3);
+        }
+
+        /* Rolling digits animation */
+        .digit {
+            display: inline-block;
+            transition: transform 0.3s ease-out;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        
+        .animate-float {
+            animation: float 10s ease-in-out infinite;
+        }
+        
+        @keyframes pulseEnergy {
+            0% { filter: drop-shadow(0 0 15px #A855F7) drop-shadow(0 0 8px #A855F7) brightness(1.2); stroke-width: 4; }
+            50% { filter: drop-shadow(0 0 35px #A855F7) drop-shadow(0 0 20px #A855F7) brightness(2.5); stroke-width: 7; }
+            100% { filter: drop-shadow(0 0 15px #A855F7) drop-shadow(0 0 8px #A855F7) brightness(1.2); stroke-width: 4; }
+        }
+        
+        .lightning-active {
+            animation: pulseEnergy 1.5s infinite ease-in-out;
+            stroke: #A855F7;
+            stroke-linecap: square;
+            stroke-linejoin: miter;
+        }
+        
+        .scroll-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #39ff8b;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #39ff8b;
+            pointer-events: none;
+            opacity: 0;
+            transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-fixed": "#07006c", "on-primary": "#003919", "on-primary-fixed": "#00210c",
+                        "on-secondary-fixed-variant": "#6900b3", "secondary-fixed-dim": "#ddb7ff", "on-background": "#e4e1e9",
+                        "inverse-primary": "#006d35", "inverse-surface": "#e4e1e9", "on-tertiary-container": "#4e50db",
+                        "on-primary-fixed-variant": "#005226", "surface-container-highest": "#35343a", "on-secondary-container": "#d6a9ff",
+                        "surface-variant": "#35343a", "tertiary-container": "#deddff", "inverse-on-surface": "#303036",
+                        "surface-container-lowest": "#0e0e13", "error": "#ffb4ab", "tertiary": "#fffcff",
+                        "surface-dim": "#131318", "surface-container-high": "#2a292f", "primary-container": "#39ff8b",
+                        "tertiary-fixed": "#e1e0ff", "surface-container": "#1f1f25", "secondary-fixed": "#f0dbff",
+                        "surface": "#131318", "on-tertiary-fixed-variant": "#2f2ebe", "primary-fixed": "#61ff97",
+                        "on-surface-variant": "#bacbb9", "on-secondary": "#490080", "surface-container-low": "#1b1b20",
+                        "tertiary-fixed-dim": "#c0c1ff", "outline": "#849585", "on-error-container": "#ffdad6",
+                        "secondary": "#A855F7", "on-primary-container": "#007238", "surface-tint": "#00e476",
+                        "surface-bright": "#39383e", "background": "#0E0E13", "primary-fixed-dim": "#39ff8b",
+                        "on-tertiary": "#1000a9", "outline-variant": "#3b4a3d", "on-error": "#690005",
+                        "on-surface": "#e4e1e9", "on-secondary-fixed": "#2c0051", "secondary-container": "#6f00be",
+                        "primary": "#f6fff3", "error-container": "#93000a"
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                    spacing: { "margin-mobile": "24px", "section-gap": "160px", "margin-desktop": "80px", "unit": "8px", "gutter": "32px" },
+                    fontFamily: {
+                        "headline-lg-mobile": ["Bodoni Moda"], "headline-xl": ["Bodoni Moda"], "body-lg": ["Geist"],
+                        "headline-lg": ["Bodoni Moda"], "body-md": ["Geist"], "label-caps": ["Space Mono"], "code-sm": ["Space Mono"]
+                    },
+                    fontSize: {
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-xl": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg": ["48px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "code-sm": ["13px", { "lineHeight": "1.5", "letterSpacing": "0.05em", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="tech-bg text-on-surface min-h-screen overflow-x-hidden antialiased">
+<!-- Persistent Background Effect -->
+<canvas id="particle-canvas"></canvas>
+<div class="fixed inset-0 pointer-events-none z-0" style="background: radial-gradient(circle at 50% 50%, transparent 0%, #0E0E13 100%);"></div>
+<div class="fixed inset-0 pointer-events-none z-0 mix-blend-screen opacity-40" style="background: radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.5) 0%, transparent 35%), radial-gradient(circle at 20% 80%, rgba(57, 255, 139, 0.4) 0%, transparent 35%);"></div>
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-background/90 backdrop-blur-xl border-b border-primary-container/20 shadow-[0_0_20px_rgba(57,255,139,0.05)]">
+<div class="flex justify-between items-center px-margin-desktop h-20 w-full">
+<div class="font-headline-lg text-headline-lg font-bold tracking-tighter text-primary">VDesign</div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="font-label-caps text-label-caps text-primary-container border-b-2 border-primary-container pb-1 text-neon-green" href="#process">Process</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-500 hover:text-neon-purple" href="#tech">Tech</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-500 hover:text-neon-purple" href="#showcase">Showcase</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-500 hover:text-neon-purple" href="#pricing">Pricing</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden md:flex items-center justify-center w-10 h-10 rounded-full border border-secondary/50 hover:border-secondary text-secondary transition-colors glow-purple">
+<span class="material-symbols-outlined text-[20px]">terminal</span>
+</button>
+<button class="px-6 py-2 border-2 border-primary-container text-primary-container font-label-caps text-label-caps hover:bg-primary-container/20 transition-all duration-300 glow-neon shadow-[inset_0_0_10px_rgba(57,255,139,0.2)]">
+                    Get Quote
+                </button>
+</div>
+</div>
+</nav>
+<!-- SideNavBar (Hidden on Mobile) -->
+<aside class="hidden lg:flex flex-col gap-gutter items-center ml-margin-desktop py-section-gap fixed left-0 top-1/2 -translate-y-1/2 h-2/3 w-20 border-r border-primary-container/20 z-40">
+<div class="flex flex-col items-center gap-8 h-full justify-center w-full">
+<button class="w-12 h-12 flex items-center justify-center rounded-full text-primary-container scale-125 drop-shadow-[0_0_15px_rgba(57,255,139,0.9)] animate-pulse group relative" title="Initialization">
+<span class="material-symbols-outlined font-bold">radio_button_checked</span>
+<span class="absolute left-16 opacity-0 group-hover:opacity-100 font-label-caps text-label-caps whitespace-nowrap transition-opacity text-neon-green">Initialization</span>
+</button>
+<button class="w-12 h-12 flex items-center justify-center rounded-full text-outline-variant hover:text-secondary hover:drop-shadow-[0_0_10px_rgba(168,85,247,0.8)] transition-all duration-300 group relative" title="Core Assembly">
+<span class="material-symbols-outlined">settings_input_component</span>
+</button>
+<button class="w-12 h-12 flex items-center justify-center rounded-full text-outline-variant hover:text-secondary hover:drop-shadow-[0_0_10px_rgba(168,85,247,0.8)] transition-all duration-300 group relative" title="Interface Layer">
+<span class="material-symbols-outlined">layers</span>
+</button>
+<button class="w-12 h-12 flex items-center justify-center rounded-full text-outline-variant hover:text-secondary hover:drop-shadow-[0_0_10px_rgba(168,85,247,0.8)] transition-all duration-300 group relative" title="Security Protocol">
+<span class="material-symbols-outlined">security</span>
+</button>
+<button class="w-12 h-12 flex items-center justify-center rounded-full text-outline-variant hover:text-primary-container hover:drop-shadow-[0_0_10px_rgba(57,255,139,0.8)] transition-all duration-300 group relative" title="Final Deployment">
+<span class="material-symbols-outlined">rocket_launch</span>
+</button>
+</div>
+</aside>
+<main class="pt-32 pb-section-gap px-margin-mobile md:px-margin-desktop relative z-10 max-w-[1600px] mx-auto lg:pl-40">
+<!-- Hero Section -->
+<section class="min-h-[819px] flex flex-col lg:flex-row items-center justify-between gap-gutter relative"><div class="lg:w-1/2 z-20 space-y-8 animate-float" style="animation-duration: 14s;"><h1 class="font-headline-xl text-headline-lg-mobile md:text-headline-xl text-primary leading-tight drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">Tu sitio, <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-container via-secondary to-secondary filter drop-shadow-[0_0_20px_rgba(168,85,247,0.6)]">tu mundo,</span> <br/>en línea.</h1><p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl text-lg">Mirá cómo nace tu página web — del código a la realidad. Un viaje guiado desde la estructura base hasta la publicación final.</p><div class="flex gap-4 pt-4"><button class="px-8 py-4 bg-primary-container/5 border-2 border-primary-container text-primary-container font-label-caps text-label-caps hover:bg-primary-container/20 transition-all duration-300 flex items-center gap-2 glow-neon shadow-[inset_0_0_15px_rgba(57,255,139,0.2)]"><span class="material-symbols-outlined text-[18px]">chat</span>Escríbeme por WhatsApp</button><button class="px-8 py-4 bg-secondary/5 border-2 border-secondary text-secondary font-label-caps text-label-caps hover:bg-secondary/20 transition-all duration-300 glow-purple shadow-[inset_0_0_15px_rgba(168,85,247,0.2)]">Ver mis trabajos</button></div></div><div class="lg:w-1/2 relative z-10 flex justify-center items-center"><div class="relative p-4 rounded-2xl bg-black/40 backdrop-blur-sm border border-white/5 shadow-[0_0_50px_-10px_rgba(168,85,247,0.4),0_0_50px_-10px_rgba(57,255,139,0.4)] animate-float" style="animation-duration: 12s;"><img alt="Futuristic Web Construction Terminal" class="rounded-xl max-w-full h-auto drop-shadow-[0_0_30px_rgba(168,85,247,0.3)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbiLE5DAB10McfqbWOULBP5-eGABhUl65kMmEyUUiPrlB5Xcr69swkuG9M180epo0-0ErznmIU1-Akt0xbinWL0z64sNil4uFE4Q7OXXzvjKLnFq_5ZVbqkoKXJKavaQ48Aji641dPCDERCaZ7gsPhWV0jORArTG63dmLJh8iMAnhyKGAJSZ-fMYf8_BmTGTxYPmStqPKMlpC72taOCq638iNpys9OJUGA8SntQ10V6_y0PxPUf7Sqv-H2_AQh_YCt2SzOf8U_9hdA"/></div></div></section>
+<!-- Build Journey Timeline & Engine -->
+<section class="mt-section-gap relative flex flex-col lg:flex-row gap-gutter" id="process">
+<!-- Build Engine (Left Sticky) -->
+<div class="lg:w-1/2 lg:sticky lg:top-32 h-fit mb-12 lg:mb-0 order-1 z-30 build-engine-container engine-hover animate-float">
+<div class="build-engine w-full flex gap-6" id="main-build-engine" style="transform: rotateY(18deg) rotateX(10deg) translateZ(20px);">
+<!-- Code Editor -->
+<div class="w-1/2 premium-glass rounded-xl flex flex-col overflow-hidden border-secondary/50 shadow-[0_0_60px_rgba(168,85,247,0.3)] relative">
+<div class="absolute inset-0 bg-gradient-to-br from-secondary/20 to-transparent pointer-events-none"></div>
+<div class="h-10 bg-[#0a0a0f]/90 backdrop-blur-xl border-b border-white/10 flex items-center px-4 gap-2 relative z-10">
+<div class="w-3 h-3 rounded-full bg-error shadow-[0_0_10px_rgba(255,180,171,0.8)]"></div>
+<div class="w-3 h-3 rounded-full bg-[#f59e0b] shadow-[0_0_10px_rgba(245,158,11,0.8)]"></div>
+<div class="w-3 h-3 rounded-full bg-primary-container shadow-[0_0_10px_rgba(57,255,139,0.8)]"></div>
+<span class="ml-auto text-xs font-code-sm text-secondary tracking-widest font-bold">sys.build()</span>
+</div>
+<div class="flex-1 bg-[#09090d]/95 p-6 font-code-sm text-code-sm text-outline-variant overflow-y-auto max-h-[500px] relative z-10 shadow-[inset_0_0_30px_rgba(0,0,0,0.8)]" id="engine-code-editor">
+<div class="code-block" data-target="0">
+<span class="text-secondary font-bold">function</span> <span class="text-white">initStructure</span>() {<br/>
+                      <span class="text-secondary">const</span> layout = <span class="text-secondary">new</span> <span class="text-primary-container text-neon-green">Grid</span>(12);<br/>
+                      layout.<span class="text-white">mount</span>(<span class="text-primary-container">"root"</span>);<br/>
+                    }
+                </div>
+<div class="code-block mt-4" data-target="1">
+<span class="text-secondary font-bold">function</span> <span class="text-white">applyDesign</span>() {<br/>
+                      <span class="text-secondary">const</span> theme = <span class="text-secondary">new</span> <span class="text-primary-container text-neon-green">Theme</span>();<br/>
+                      theme.<span class="text-white">setColors</span>({ primary: <span class="text-primary-container">"#39ff8b"</span> });<br/>
+                    }
+                </div>
+<div class="code-block mt-4" data-target="2">
+<span class="text-secondary font-bold">function</span> <span class="text-white">makeResponsive</span>() {<br/>
+                      <span class="text-white">window</span>.<span class="text-white">addEventListener</span>(<span class="text-primary-container">"resize"</span>, scale);<br/>
+                    }
+                </div>
+<div class="code-block mt-4" data-target="3">
+<span class="text-secondary font-bold">async function</span> <span class="text-white">connectAPI</span>() {<br/>
+                      <span class="text-secondary">await</span> <span class="text-white">fetch</span>(<span class="text-primary-container">"/api/whatsapp"</span>);<br/>
+                    }
+                </div>
+<div class="code-block mt-4" data-target="4">
+<span class="text-secondary font-bold">function</span> <span class="text-white">initBooking</span>() {<br/>
+                      <span class="text-secondary">const</span> cal = <span class="text-secondary">new</span> <span class="text-primary-container text-neon-green">Calendar</span>();<br/>
+                      cal.<span class="text-white">sync</span>();<br/>
+                    }
+                </div>
+</div>
+</div>
+<!-- Hologram Preview -->
+<div class="w-1/2 hologram-preview rounded-xl p-5 flex flex-col relative overflow-hidden backdrop-blur-2xl">
+<div class="absolute inset-0 bg-gradient-to-b from-primary-container/30 via-transparent to-secondary/20 pointer-events-none mix-blend-screen"></div>
+<!-- Dynamic hologram elements -->
+<div class="h-full w-full border border-primary-container/50 rounded-lg flex flex-col gap-4 p-4 hologram-container relative z-10 shadow-[inset_0_0_30px_rgba(57,255,139,0.15)] bg-[#0e0e13]/50">
+<div class="hologram-element w-full h-12 rounded-md flex items-center px-4 gap-3 border-primary-container/40" id="holo-0">
+<div class="w-5 h-5 rounded-full bg-primary-container/60 animate-pulse shadow-[0_0_10px_rgba(57,255,139,0.5)]"></div>
+<div class="h-3 w-24 bg-primary-container/40 rounded"></div>
+<div class="h-3 w-12 bg-primary-container/20 rounded ml-auto"></div>
+</div>
+<div class="flex gap-4 flex-1">
+<div class="hologram-element holo-purple w-1/3 h-full rounded-md flex flex-col gap-3 p-3" id="holo-1">
+<div class="h-3 w-full bg-secondary/40 rounded shadow-[0_0_5px_rgba(168,85,247,0.3)]"></div>
+<div class="h-3 w-3/4 bg-secondary/40 rounded"></div>
+<div class="h-3 w-5/6 bg-secondary/40 rounded"></div>
+<div class="h-3 w-full bg-secondary/40 rounded mt-auto"></div>
+</div>
+<div class="hologram-element w-2/3 h-full rounded-md p-4 flex flex-col gap-4" id="holo-2">
+<div class="h-32 w-full bg-primary-container/10 rounded border border-primary-container/40 shadow-[inset_0_0_15px_rgba(57,255,139,0.1)] flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container/50 text-4xl">view_in_ar</span>
+</div>
+<div class="flex gap-3">
+<div class="h-10 w-1/2 bg-primary-container/20 rounded border border-primary-container/30"></div>
+<div class="h-10 w-1/2 bg-primary-container/20 rounded border border-primary-container/30"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Cotización Card -->
+<div class="premium-glass p-8 rounded-xl mt-10 relative overflow-hidden border-primary-container/40 max-w-sm ml-auto animate-float shadow-[0_20px_50px_rgba(0,0,0,0.8),_inset_0_0_20px_rgba(57,255,139,0.15)]" style="animation-duration: 11s;">
+<div class="absolute top-0 right-0 w-48 h-48 bg-primary-container/30 blur-[80px] rounded-full"></div>
+<div class="absolute bottom-0 left-0 w-40 h-40 bg-secondary/30 blur-[70px] rounded-full"></div>
+<h3 class="font-label-caps text-label-caps text-on-surface mb-5 tracking-widest relative z-10 font-bold uppercase">Cotización en Vivo</h3>
+<div class="font-headline-lg text-headline-lg text-primary-container flex items-baseline gap-3 glow-neon relative z-10" id="live-total-container">
+<span class="inline-flex items-center px-3 py-1 rounded text-xs font-label-caps uppercase tracking-wider bg-primary-container/20 text-primary-container border border-primary-container/50 mr-2 mb-2 shadow-[0_0_15px_rgba(57,255,139,0.3)]">Precio Base</span>
+<span class="text-4xl opacity-70 font-light">$</span>
+<span class="tracking-tight text-5xl font-bold" id="live-total">0</span>
+</div>
+<div class="mt-6 font-code-sm text-code-sm text-secondary border-t border-secondary/30 pt-5 flex items-center justify-between relative z-10">
+<span class="opacity-90 font-bold tracking-wide">ESTADO_SYS:</span>
+<span class="flex items-center gap-2 bg-secondary/20 px-4 py-1.5 rounded-sm border border-secondary/50 text-neon-purple uppercase text-xs font-bold"><span class="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse shadow-[0_0_12px_#A855F7]"></span> Construyendo</span>
+</div>
+</div>
+</div>
+<!-- Vertical Timeline -->
+<div class="lg:w-1/2 order-2 relative">
+<div class="relative pl-12 md:pl-24 space-y-32 py-32" id="timeline-container">
+<svg class="absolute inset-0 w-full h-full pointer-events-none z-0" id="lightning-svg" style="left: -100px; width: calc(100% + 100px);"></svg>
+<!-- Nodes injected via JS -->
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="relative w-full bottom-0 bg-[#09090d] border-t border-primary-container/20 mt-section-gap z-20 shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop py-gutter w-full">
+<div class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-4 md:mb-0 drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">VDesign</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant text-center mb-4 md:mb-0">
+                © 2024 VDESIGN SYNDICATE. ALL RIGHTS RESERVED.
+            </div>
+<div class="flex gap-6">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">Privacy</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">Security</a>
+<a class="font-label-caps text-label-caps text-secondary hover:text-primary-container transition-colors duration-300 flex items-center gap-1 glow-purple font-bold" href="#">
+<span class="material-symbols-outlined text-[16px]">terminal</span> Terminal_Access
+                </a>
+</div>
+</div>
+</footer>
+<script>
+        // Particle Background
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedY = Math.random() * 0.8 + 0.2;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.color = Math.random() > 0.5 ? 'rgba(57, 255, 139, 0.6)' : 'rgba(168, 85, 247, 0.6)';
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                if (this.y > height) this.y = 0;
+                if (this.x > width || this.x < 0) this.speedX *= -1;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 200; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+        initParticles();
+        animateParticles();
+
+        // 3D Engine interaction & Scroll Particles
+        let scrollY = window.scrollY;
+        
+        window.addEventListener('scroll', () => {
+            const newScrollY = window.scrollY;
+            const diff = newScrollY - scrollY;
+            scrollY = newScrollY;
+            
+            const engine = document.getElementById('main-build-engine');
+            if(engine && !engine.parentElement.matches(':hover')) {
+                // Subtle reaction to scroll
+                const rotation = Math.min(Math.max(diff * 0.15, -25), 25);
+                engine.style.transform = `rotateY(${18 + rotation}deg) rotateX(${10 - rotation * 0.5}deg) translateZ(20px)`;
+            }
+            
+            // Create code particles on scroll
+            if(Math.abs(diff) > 5 && Math.random() > 0.4) {
+                createScrollParticle();
+            }
+        });
+        
+        function createScrollParticle() {
+            const engineContainer = document.querySelector('.build-engine-container');
+            if(!engineContainer) return;
+            
+            const particle = document.createElement('div');
+            particle.className = 'scroll-particle';
+            
+            // Random position around engine
+            const x = Math.random() * 120 - 60;
+            const y = Math.random() * 120 - 60;
+            
+            particle.style.left = `50%`;
+            particle.style.top = `50%`;
+            particle.style.transform = `translate(${x}px, ${y}px)`;
+            
+            // Random color matching theme
+            if(Math.random() > 0.5) {
+                particle.style.background = '#A855F7';
+                particle.style.boxShadow = '0 0 15px #A855F7';
+            }
+            
+            engineContainer.appendChild(particle);
+            
+            // Animate outwards
+            setTimeout(() => {
+                particle.style.opacity = '1';
+                particle.style.transform = `translate(${x * 3.5}px, ${y * 3.5 - 60}px) scale(2)`;
+            }, 10);
+            
+            setTimeout(() => {
+                particle.style.opacity = '0';
+                setTimeout(() => particle.remove(), 400);
+            }, 400);
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            const engine = document.getElementById('main-build-engine');
+            if(engine) {
+                const x = (e.clientX / window.innerWidth - 0.5) * 40;
+                const y = (e.clientY / window.innerHeight - 0.5) * 40;
+                // Only apply if not hovered (hover has its own rule)
+                if(!engine.parentElement.matches(':hover')) {
+                     engine.style.transform = `rotateY(${18 + x}deg) rotateX(${10 - y}deg) translateZ(30px)`;
+                }
+            }
+        });
+
+
+        const nodesData = [
+            { id: 1, title: "Estructura base", price: 150, icon: "foundation", color: "green" },
+            { id: 2, title: "Diseño a tu medida", price: 250, icon: "design_services", color: "green" },
+            { id: 3, title: "Listo para celular", price: 100, icon: "smartphone", color: "green" },
+            { id: 4, title: "Conexión WhatsApp", price: 80, icon: "chat", color: "green" },
+            { id: 5, title: "Citas y reservas", price: 200, icon: "event_available", color: "green" },
+            { id: 6, title: "Cobros en línea", price: 180, icon: "payments", color: "green" },
+            { id: 7, title: "Se instala como app", price: 120, icon: "install_mobile", color: "green" },
+            { id: 8, title: "Asistente con IA", price: 250, icon: "smart_toy", color: "green" },
+            { id: 9, title: "Dominio .com + publicación", price: 90, icon: "public", color: "green" }
+        ];
+
+        const timelineContainer = document.getElementById('timeline-container');
+        const liveTotalEl = document.getElementById('live-total');
+        let targetTotal = 0;
+        let currentTotal = 0;
+
+        nodesData.forEach((node, index) => {
+            const accentColor = 'primary-container';
+            const textClass = 'text-primary-container';
+            const glowClass = 'node-active';
+            
+            const isEven = index % 2 === 0;
+            const dotPos = isEven ? '-left-12 md:-left-20' : '-left-2 md:-left-4';
+            
+            const html = `
+                <div class="relative group timeline-node" data-price="${node.price}" data-index="${index}" data-color="${node.color}">
+                    <div class="absolute ${dotPos} w-6 h-6 rounded-sm node-inactive top-6 -translate-y-1/2 -translate-x-1/2 group-[.is-active]:${glowClass} transition-all duration-500 z-10 border-2 border-primary-container dot-element rotate-45 shadow-[0_0_10px_rgba(57,255,139,0.5)]"></div>
+                    
+                    <div class="premium-glass p-6 rounded-xl w-full transition-all duration-500 opacity-40 transform translate-x-12 scale-95 group-[.is-active]:opacity-100 group-[.is-active]:translate-x-0 group-[.is-active]:scale-100 relative overflow-hidden group-[.is-active]:border-${accentColor}/60 z-10 shadow-[0_10px_30px_rgba(0,0,0,0.5)] group-[.is-active]:shadow-[0_15px_40px_rgba(0,0,0,0.8),_inset_0_0_20px_rgba(57,255,139,0.15)]">
+                        <div class="absolute inset-0 bg-gradient-to-r from-${accentColor}/10 to-transparent opacity-0 group-[.is-active]:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                        <div class="absolute -right-10 -top-10 w-32 h-32 bg-${accentColor}/20 blur-[50px] rounded-full opacity-0 group-[.is-active]:opacity-100 transition-opacity duration-700"></div>
+                        
+                        <div class="flex items-center justify-between mb-2 relative z-10">
+                            <div class="flex items-center gap-5">
+                                <div class="w-12 h-12 rounded-lg bg-[#0e0e13] flex items-center justify-center border border-white/10 group-[.is-active]:border-${accentColor}/50 group-[.is-active]:bg-${accentColor}/10 transition-all duration-400 shadow-[inset_0_0_15px_rgba(0,0,0,0.8)] group-[.is-active]:shadow-[inset_0_0_15px_rgba(57,255,139,0.2)]">
+                                    <span class="material-symbols-outlined text-outline-variant text-2xl group-[.is-active]:${textClass} transition-colors duration-400 drop-shadow-[0_0_12px_currentColor]">${node.icon}</span>
+                                </div>
+                                <h4 class="font-body-lg text-body-lg text-on-surface font-bold group-[.is-active]:text-white transition-colors duration-400 tracking-wider text-lg">${node.title}</h4>
+                            </div>
+                            <div class="bg-surface-variant/80 group-[.is-active]:bg-${accentColor}/20 border border-transparent group-[.is-active]:border-${accentColor}/50 px-4 py-2 rounded-sm relative opacity-0 group-[.is-active]:opacity-100 transition-all duration-500 delay-200 shadow-[0_4px_15px_rgba(0,0,0,0.4)] group-[.is-active]:shadow-[0_0_20px_rgba(57,255,139,0.2)]">
+                                <span class="font-code-sm text-code-sm text-on-surface group-[.is-active]:text-primary-container font-bold tracking-widest">+$${node.price}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            timelineContainer.insertAdjacentHTML('beforeend', html);
+        });
+
+        function drawLightningSegments() {
+            const svg = document.getElementById('lightning-svg');
+            if(!svg) return;
+            svg.innerHTML = '';
+            const nodes = document.querySelectorAll('.timeline-node');
+            const container = document.getElementById('timeline-container');
+            const containerRect = container.getBoundingClientRect();
+
+            for (let i = 0; i < nodes.length - 1; i++) {
+                const node1 = nodes[i];
+                const node2 = nodes[i+1];
+                const dot1 = node1.querySelector('.dot-element');
+                const dot2 = node2.querySelector('.dot-element');
+
+                if(!dot1 || !dot2) continue;
+
+                const rect1 = dot1.getBoundingClientRect();
+                const rect2 = dot2.getBoundingClientRect();
+                
+                const x1 = rect1.left - containerRect.left + rect1.width / 2 + 100;
+                const y1 = rect1.top - containerRect.top + rect1.height / 2;
+                const x2 = rect2.left - containerRect.left + rect2.width / 2 + 100;
+                const y2 = rect2.top - containerRect.top + rect2.height / 2;
+
+                const midY = (y1 + y2) / 2;
+                const offset = (i % 2 === 0) ? 80 : -80; // Sharp zigzag offset
+
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                // Aggressive Sharp zigzag line
+                path.setAttribute('d', `M ${x1} ${y1} L ${x1 + offset} ${midY} L ${x2} ${y2}`);
+                path.setAttribute('fill', 'none');
+                path.setAttribute('stroke', 'rgba(53, 52, 58, 0.4)');
+                path.setAttribute('stroke-width', '3');
+                path.setAttribute('stroke-dasharray', '8,8');
+                path.setAttribute('class', `transition-all duration-500 lightning-seg seg-${i}`);
+                svg.appendChild(path);
+            }
+            updateLightningSegments();
+        }
+
+        function updateLightningSegments() {
+            const nodes = document.querySelectorAll('.timeline-node');
+            for (let i = 0; i < nodes.length - 1; i++) {
+                const seg = document.querySelector(`.seg-${i}`);
+                if (seg && nodes[i+1].classList.contains('is-active')) {
+                    seg.classList.add('lightning-active');
+                    seg.removeAttribute('stroke-dasharray');
+                } else if (seg) {
+                    seg.classList.remove('lightning-active');
+                    seg.setAttribute('stroke', 'rgba(53, 52, 58, 0.4)');
+                    seg.setAttribute('stroke-dasharray', '8,8');
+                    seg.style.filter = 'none';
+                }
+            }
+        }
+
+        setTimeout(drawLightningSegments, 100);
+        window.addEventListener('resize', drawLightningSegments);
+
+        // Smoother easing for counter
+        function easeOutExpo(x) {
+            return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
+        }
+
+        let animationStartTime = null;
+        let startTotal = 0;
+        const animationDuration = 800;
+
+        function animateValue(timestamp) {
+            if (!animationStartTime) animationStartTime = timestamp;
+            const progress = Math.min((timestamp - animationStartTime) / animationDuration, 1);
+            const easedProgress = easeOutExpo(progress);
+            
+            currentTotal = Math.floor(startTotal + (targetTotal - startTotal) * easedProgress);
+            liveTotalEl.innerText = currentTotal.toLocaleString();
+
+            if (progress < 1) {
+                requestAnimationFrame(animateValue);
+            } else {
+                currentTotal = targetTotal;
+                liveTotalEl.innerText = targetTotal.toLocaleString();
+                animationStartTime = null; // Reset for next animation
+            }
+        }
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '-30% 0px -40% 0px',
+            threshold: 0.6
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Timeline Node Activation
+                    document.querySelectorAll('.timeline-node').forEach(n => n.classList.remove('is-active', 'scale-105'));
+                    entry.target.classList.add('is-active', 'scale-105');
+                    updateLightningSegments();
+                    
+                    const index = parseInt(entry.target.dataset.index);
+                    
+                    // Code Editor Sync
+                    document.querySelectorAll('.code-block').forEach(cb => cb.classList.remove('is-active'));
+                    // Select code block based on index, loop if needed
+                    const targetCode = document.querySelector(`.code-block[data-target="${index % 5}"]`);
+                    if(targetCode) {
+                        targetCode.classList.add('is-active');
+                        targetCode.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+
+                    // Hologram Sync - Build it up piece by piece
+                    document.querySelectorAll('.hologram-element').forEach(he => he.classList.remove('is-active'));
+                    
+                    // Progressive reveal based on progress
+                    const maxHolo = index % 3;
+                    for(let i=0; i<=maxHolo; i++) {
+                        const targetHolo = document.getElementById(`holo-${i}`);
+                        if(targetHolo) {
+                            setTimeout(() => {
+                                targetHolo.classList.add('is-active');
+                            }, i * 150); // Staggered animation faster
+                        }
+                    }
+
+                    // Price Update
+                    let newTotal = 0;
+                    document.querySelectorAll('.timeline-node').forEach(n => {
+                        if(parseInt(n.dataset.index) <= index) {
+                            newTotal += parseInt(n.dataset.price);
+                        }
+                    });
+                    
+                    if(newTotal !== targetTotal) {
+                        startTotal = currentTotal;
+                        targetTotal = newTotal;
+                        animationStartTime = null;
+                        requestAnimationFrame(animateValue);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.timeline-node').forEach(node => {
+            observer.observe(node);
+        });
+
+    </script>
+</body></html>

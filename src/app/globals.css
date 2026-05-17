@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: oklch(11% 0.01 280);
+  color: oklch(96% 0.005 280);
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: oklch(78% 0.13 80);
+  color: oklch(8% 0 0);
+}
+
+.serif { font-family: 'Fraunces', Georgia, serif; }
+.mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+canvas {
+  touch-action: none;
+}
+
+/* Hide scrollbar but keep functionality */
+html {
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar {
+  display: none;
+}
+
+/* Marquee animation */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+model-viewer {
+  display: block;
+  width: 100%;
+  height: 100%;
+  --poster-color: transparent;
+}
+
+/* Avatar breathing — bobbing vertical sutil que da vida */
+@keyframes avatar-breathe {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-6px) scale(1.005); }
+}
+.avatar-breathe {
+  animation: avatar-breathe 4.5s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+
+/* Sutil drift que se suma al breathing para que no sea robótico */
+@keyframes avatar-drift {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(3px); }
+}
+.avatar-wrap {
+  animation: avatar-drift 7s ease-in-out infinite;
+}
