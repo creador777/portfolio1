@@ -827,7 +827,7 @@ export default function Servicios3D() {
       <section style={{ minHeight: '92vh', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '32px 0', padding: '140px 24px 80px', position: 'relative', overflow: 'hidden', maxWidth: 1200, margin: '0 auto', width: '100%', boxSizing: 'border-box' }}>
         <div style={{ position: 'absolute', inset: 0, backgroundImage: `linear-gradient(rgba(57,255,139,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(57,255,139,0.04) 1px, transparent 1px)`, backgroundSize: '48px 48px', pointerEvents: 'none' }} />
 
-        <div style={{ flex: 1, minWidth: 0, zIndex: 1 }}>
+        <div style={{ flex: '1 1 300px', minWidth: 0, zIndex: 1 }}>
           <div style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '0.3em', textTransform: 'uppercase', color: G, marginBottom: 20, whiteSpace: 'pre-line' }}>{t.badge}</div>
           <h1 style={{ fontFamily: SERIF, fontSize: 'clamp(2.2rem, 5vw, 4.2rem)', fontWeight: 400, lineHeight: 1.1, marginBottom: 24, maxWidth: 560 }}>
             {t.h1a} <span style={{ color: G, fontStyle: 'italic' }}>{t.h1b}</span> {t.h1c}
