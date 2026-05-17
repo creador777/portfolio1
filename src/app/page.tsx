@@ -3,12 +3,15 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 
-// Force full reload when browser restores this page from bfcache.
-// bfcache freezes the JS heap: RAF loops die, React effects don't re-run,
-// canvas and model-viewer end up in broken state. Reload is the only safe fix.
+// bfcache fix: iOS Safari restores page from frozen state — RAF loops die,
+// React effects don't re-run, model-viewer layout breaks, scrollX gets restored.
+// Reset scroll immediately then force a full reload.
 if (typeof window !== 'undefined') {
   window.addEventListener('pageshow', (e: PageTransitionEvent) => {
     if (e.persisted) {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollLeft = 0;
+      document.body.scrollLeft = 0;
       window.location.reload();
     }
   });
