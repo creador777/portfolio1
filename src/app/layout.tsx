@@ -2,12 +2,12 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'VDesing — Architect of immersive web experiences',
-  description: 'Diseñador y desarrollador web en Puerto Rico. Sitios inmersivos, 3D, y experiencias premium.',
-  metadataBase: new URL('https://creador777.github.io'),
+  title: 'VDesing — Webs 3D para negocios en Puerto Rico',
+  description: 'Diseñador y desarrollador web en Puerto Rico. Sitios con avatar 3D, tiendas online, botones WhatsApp y más. Desde $680.',
+  metadataBase: new URL('https://vdesing.vercel.app'),
   openGraph: {
-    title: 'VDesing — Architect of immersive web experiences',
-    description: 'Sitios web inmersivos y experiencias 3D para marcas premium.',
+    title: 'VDesing — Webs 3D para negocios en Puerto Rico',
+    description: 'Sitios web con 3D interactivo para pequeños negocios en PR. Paquete básico desde $680.',
     type: 'website',
     locale: 'es_PR'
   }
