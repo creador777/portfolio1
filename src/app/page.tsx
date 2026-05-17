@@ -588,13 +588,13 @@ function UrgencyBar({ t }: { t: TType }) {
   const pct = Math.min(1, total / max) * 100;
 
   return (
-    <div style={{ position: 'fixed', top: 57, left: 0, right: 0, zIndex: 49, height: 52, overflow: 'hidden' }}>
+    <div id="urgency-bar" style={{ position: 'fixed', top: 57, left: 0, right: 0, zIndex: 49, height: 52, overflow: 'hidden' }}>
       <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} />
       <div style={{ position: 'absolute', inset: 0, background: 'rgba(8,8,13,0.82)', backdropFilter: 'blur(6px)' }} />
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: G, boxShadow: `0 0 12px ${G}` }} />
       <div style={{ position: 'absolute', bottom: 0, left: 0, width: `${pct}%`, height: 2, background: `linear-gradient(90deg, ${G}, #A855F7)`, boxShadow: `0 0 8px ${G}`, transition: 'width 1s linear' }} />
 
-      <div style={{ position: 'relative', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 28, flexWrap: 'wrap', padding: '0 20px' }}>
+      <div id="urgency-inner" style={{ position: 'relative', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 28, flexWrap: 'wrap', padding: '0 20px' }}>
         <div id="urgency-label" style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)' }}>
           {t.urgencyLabel}
         </div>

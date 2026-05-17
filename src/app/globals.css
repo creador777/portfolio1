@@ -36,9 +36,12 @@ canvas {
   #main-nav { padding-left: 16px !important; padding-right: 16px !important; }
   #nav-subtitle { display: none !important; }
 
-  /* Urgency bar: hide label + countdown, show only offer + CTA */
+  /* Urgency bar: single row, no wrap, compact */
+  #urgency-bar { height: 44px !important; }
+  #urgency-inner { flex-wrap: nowrap !important; gap: 10px !important; padding: 0 12px !important; justify-content: space-between !important; }
   #urgency-label { display: none !important; }
   #urgency-countdown { display: none !important; }
+  #urgency-offer { font-size: 13px !important; }
 
   /* Badge: tighten letter-spacing so text fits on 1–2 lines */
   #hero-badge { letter-spacing: 0.1em !important; font-size: 9px !important; }
