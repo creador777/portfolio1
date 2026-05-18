@@ -5,3 +5,6 @@ out
 *.log
 .DS_Store
 public/models/vdesing-pc.glb
+
+.vercel
+.env*.local
