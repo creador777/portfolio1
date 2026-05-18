@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import Link from 'next/link';
 
 const G    = '#39FF8B';
 const P    = '#A855F7';
@@ -400,7 +399,7 @@ export default function Demo3DPage() {
       {/* top bar */}
       <div style={{ position:'fixed', top:0, left:0, right:0, zIndex:20, height:52, display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 28px', background:'rgba(8,8,13,0.94)', backdropFilter:'blur(14px)', borderBottom:'1px solid rgba(255,255,255,0.06)' }}>
         <div style={{ display:'flex', alignItems:'center', gap:16 }}>
-          <Link href="/servicios/3d" style={{ fontFamily:MONO, fontSize:10, letterSpacing:'0.12em', textTransform:'uppercase', color:'rgba(255,255,255,0.38)', textDecoration:'none', border:'1px solid rgba(255,255,255,0.12)', padding:'5px 12px', borderRadius:3 }}>← Back</Link>
+          <a href="/servicios/3d" style={{ fontFamily:MONO, fontSize:10, letterSpacing:'0.12em', textTransform:'uppercase', color:'rgba(255,255,255,0.38)', textDecoration:'none', border:'1px solid rgba(255,255,255,0.12)', padding:'5px 12px', borderRadius:3 }}>← Back</a>
           <span style={{ fontFamily:MONO, fontSize:13, letterSpacing:'0.04em', color:'#e6e6ee' }}>VDesing<span style={{ color:G }}> — Code to Reality</span></span>
         </div>
         <div style={{ fontFamily:MONO, fontSize:10, letterSpacing:'0.26em', textTransform:'uppercase', color:'rgba(255,255,255,0.4)' }}>
