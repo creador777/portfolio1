@@ -746,17 +746,36 @@ export default function Servicios3D() {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
 
-  // Bfcache killer: if Safari serves this page from back/forward cache,
-  // force a real network fetch so the user sees the current deployed version.
+  // Bfcache restore handler: when Safari thaws this page from bfcache,
+  // re-trigger model-viewer initialization instead of doing a hard reload.
+  // Hard reloads from pageshow cause a race condition where model-viewer's
+  // module script is already cached by the browser and does not re-execute,
+  // leaving the custom element undefined and the avatar invisible.
   useEffect(() => {
     const handlePageShow = (e: PageTransitionEvent) => {
-      if (e.persisted) {
-        window.location.replace(window.location.pathname + '?r=' + Date.now());
-      }
+      if (!e.persisted) return;
+      // Re-load the model-viewer module so the custom element re-registers.
+      // Remove the existing script tag so the deduplication check in ModelViewer
+      // does not block re-insertion.
+      const existing = document.querySelector('script[data-mvs]');
+      if (existing) existing.remove();
+      const s = document.createElement('script');
+      s.type = 'module';
+      s.src = 'https://cdn.jsdelivr.net/npm/@google/model-viewer@4.0.0/dist/model-viewer.min.js';
+      s.dataset.mvs = '1';
+      document.head.appendChild(s);
+      // Force model-viewer elements to re-render by toggling their src attribute.
+      s.onload = () => {
+        document.querySelectorAll('model-viewer').forEach((el) => {
+          const src = el.getAttribute('src');
+          if (src) {
+            el.removeAttribute('src');
+            requestAnimationFrame(() => el.setAttribute('src', src));
+          }
+        });
+      };
     };
     window.addEventListener('pageshow', handlePageShow);
-    // Opt out of bfcache entirely for future navigations
-    window.addEventListener('unload', () => {});
     return () => window.removeEventListener('pageshow', handlePageShow);
   }, []);
   const [base, setBase] = useState<'basic' | 'pro' | null>(null);

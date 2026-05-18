@@ -25,9 +25,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
           rel="stylesheet"
         />
-        {/* model-viewer — carga temprana para evitar delay del avatar */}
-        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-        <script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@4.0.0/dist/model-viewer.min.js" />
         {/* preload del GLB para que empiece a bajar antes de que React monte */}
         <link rel="preload" href="/models/chibi-animated.glb" as="fetch" crossOrigin="anonymous" />
       </head>
