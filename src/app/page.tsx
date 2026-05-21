@@ -954,6 +954,42 @@ export default function Servicios3D() {
         </div>
       </section>
 
+      {/* Portfolio */}
+      <section style={{ borderTop: '1px solid rgba(255,255,255,0.07)', padding: '80px 24px 100px' }}>
+        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+          <div style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: 12, textAlign: 'center' }}>{t.worksBadge}</div>
+          <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', textAlign: 'center', fontWeight: 400, marginBottom: 52 }}>
+            {t.worksTitle}
+          </h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
+            {([
+              { ...t.projects[7], color: G, url: 'https://kare.boutique' },
+              { ...t.projects[0], color: P, url: 'https://corta-pelo.vercel.app' },
+              { ...t.projects[1], color: G, url: null },
+              { ...t.projects[2], color: P, url: 'https://samuraytattoo.pages.dev' },
+              { ...t.projects[3], color: G, url: 'https://reyesg.vercel.app/' },
+              { ...t.projects[4], color: P, url: 'https://www.iglesia.living/' },
+              { ...t.projects[5], color: G, url: 'https://ymusic.nucleo-evo-cuantic7.workers.dev/' },
+              { ...t.projects[6], color: P, url: 'https://arcs.nucleo-evo-cuantic7.workers.dev/' },
+            ] as Array<{ name: string; cat: string; desc: string; color: string; url: string | null }>).map((p) => (
+              <div key={p.name} style={{ border: `1px solid rgba(255,255,255,0.08)`, borderRadius: 10, padding: '28px 24px', background: 'rgba(255,255,255,0.02)', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: p.color, opacity: 0.6 }} />
+                <div style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', color: p.color, marginBottom: 10 }}>{p.cat}</div>
+                <div style={{ fontFamily: SERIF, fontSize: 22, marginBottom: 12 }}>{p.name}</div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', lineHeight: 1.65, flex: 1 }}>{p.desc}</div>
+                {p.url ? (
+                  <a href={p.url} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginTop: 20, fontFamily: MONO, fontSize: 11, letterSpacing: '0.12em', color: p.color, border: `1px solid ${p.color}44`, padding: '8px 16px', borderRadius: 4, textDecoration: 'none', width: 'fit-content' }}>
+                    {t.viewSite}
+                  </a>
+                ) : (
+                  <span style={{ display: 'inline-block', marginTop: 20, fontFamily: MONO, fontSize: 10, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.2)' }}>{t.privateDemo}</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Real-time Calculator */}
       <section style={{ borderTop: '1px solid rgba(255,255,255,0.07)', padding: '80px 24px 120px' }}>
         <div style={{ maxWidth: 860, margin: '0 auto' }}>
@@ -1055,41 +1091,6 @@ export default function Servicios3D() {
         </div>
       </section>
 
-      {/* Portfolio */}
-      <section style={{ borderTop: '1px solid rgba(255,255,255,0.07)', padding: '80px 24px 100px' }}>
-        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <div style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: 12, textAlign: 'center' }}>{t.worksBadge}</div>
-          <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', textAlign: 'center', fontWeight: 400, marginBottom: 52 }}>
-            {t.worksTitle}
-          </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
-            {([
-              { ...t.projects[7], color: G, url: 'https://kare.boutique' },
-              { ...t.projects[0], color: P, url: 'https://corta-pelo.vercel.app' },
-              { ...t.projects[1], color: G, url: null },
-              { ...t.projects[2], color: P, url: 'https://samuraytattoo.pages.dev' },
-              { ...t.projects[3], color: G, url: 'https://reyesg.vercel.app/' },
-              { ...t.projects[4], color: P, url: 'https://www.iglesia.living/' },
-              { ...t.projects[5], color: G, url: 'https://ymusic.nucleo-evo-cuantic7.workers.dev/' },
-              { ...t.projects[6], color: P, url: 'https://arcs.nucleo-evo-cuantic7.workers.dev/' },
-            ] as Array<{ name: string; cat: string; desc: string; color: string; url: string | null }>).map((p) => (
-              <div key={p.name} style={{ border: `1px solid rgba(255,255,255,0.08)`, borderRadius: 10, padding: '28px 24px', background: 'rgba(255,255,255,0.02)', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: p.color, opacity: 0.6 }} />
-                <div style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', color: p.color, marginBottom: 10 }}>{p.cat}</div>
-                <div style={{ fontFamily: SERIF, fontSize: 22, marginBottom: 12 }}>{p.name}</div>
-                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', lineHeight: 1.65, flex: 1 }}>{p.desc}</div>
-                {p.url ? (
-                  <a href={p.url} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginTop: 20, fontFamily: MONO, fontSize: 11, letterSpacing: '0.12em', color: p.color, border: `1px solid ${p.color}44`, padding: '8px 16px', borderRadius: 4, textDecoration: 'none', width: 'fit-content' }}>
-                    {t.viewSite}
-                  </a>
-                ) : (
-                  <span style={{ display: 'inline-block', marginTop: 20, fontFamily: MONO, fontSize: 10, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.2)' }}>{t.privateDemo}</span>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Footer */}
       <footer style={{ borderTop: '1px solid rgba(255,255,255,0.07)', marginTop: 40, padding: '48px 24px 32px', fontFamily: SANS }}>
